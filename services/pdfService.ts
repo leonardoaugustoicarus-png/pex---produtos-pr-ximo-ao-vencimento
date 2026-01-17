@@ -1,16 +1,10 @@
 
 import { jsPDF } from 'jspdf';
-import autoTable, { CellHookData } from 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 import { Product, SoldProduct } from '../types';
 
-interface AutoTableJS extends jsPDF {
-  lastAutoTable: {
-    finalY: number;
-  }
-}
-
 export const generatePDF = (products: Product[]) => {
-  const doc = new jsPDF() as AutoTableJS;
+  const doc = new jsPDF();
   
   // Header
   doc.setFillColor(200, 0, 0);
@@ -42,7 +36,7 @@ export const generatePDF = (products: Product[]) => {
     theme: 'grid',
     headStyles: { fillColor: [150, 0, 0], textColor: [255, 255, 0] },
     alternateRowStyles: { fillColor: [245, 245, 245] },
-    didDrawCell: (data: CellHookData) => {
+    didDrawCell: (data: any) => {
       if (data.section === 'body' && data.column.index === 5) {
         const status = data.cell.raw as string;
         if (status.includes('VENCIDO')) {
@@ -59,7 +53,7 @@ export const generatePDF = (products: Product[]) => {
     styles: { fontSize: 7, cellPadding: 2 }
   });
 
-  const finalY = doc.lastAutoTable.finalY + 10;
+  const finalY = (doc as any).lastAutoTable.finalY + 10;
   doc.setFontSize(10);
   doc.setTextColor(0, 0, 0);
   doc.text(`Total de itens monitorados: ${products.length}`, 14, finalY);
@@ -68,7 +62,7 @@ export const generatePDF = (products: Product[]) => {
 };
 
 export const generateProductCatalogPDF = (products: Product[]) => {
-  const doc = new jsPDF() as AutoTableJS;
+  const doc = new jsPDF();
   const sortedProducts = [...products].sort((a, b) => a.name.localeCompare(b.name));
 
   // Header - Cor Azul para "Produtos"
@@ -108,7 +102,7 @@ export const generateProductCatalogPDF = (products: Product[]) => {
     styles: { fontSize: 10, cellPadding: 5 }
   });
 
-  const finalY = doc.lastAutoTable.finalY + 10;
+  const finalY = (doc as any).lastAutoTable.finalY + 10;
   doc.setFontSize(10);
   doc.setTextColor(75, 85, 99);
   doc.text(`Total de produtos listados: ${products.length}`, 14, finalY);
@@ -117,7 +111,7 @@ export const generateProductCatalogPDF = (products: Product[]) => {
 };
 
 export const generateSalesReportPDF = (sales: SoldProduct[]) => {
-  const doc = new jsPDF() as AutoTableJS;
+  const doc = new jsPDF();
   
   // Header
   doc.setFillColor(34, 197, 94); // Green 500
@@ -150,7 +144,7 @@ export const generateSalesReportPDF = (sales: SoldProduct[]) => {
     styles: { fontSize: 8 }
   });
 
-  const finalY = doc.lastAutoTable.finalY + 10;
+  const finalY = (doc as any).lastAutoTable.finalY + 10;
   doc.setFontSize(10);
   doc.setTextColor(0, 0, 0);
   doc.text(`Total de vendas registradas: ${sales.length}`, 14, finalY);

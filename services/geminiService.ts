@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 
 export const getPharmaceuticalAdvice = async (productName: string, status: string) => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
+  
   const prompt = `Você é um consultor farmacêutico especialista. O produto "${productName}" está com status "${status}". 
   Utilizando ferramentas de busca para garantir a precisão atualizada (normas ANVISA e descartes locais):
   1. Se estiver vencido: Forneça o passo a passo exato do descarte ético.
@@ -22,10 +22,10 @@ export const getPharmaceuticalAdvice = async (productName: string, status: strin
 
     const text = response.text;
     const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-
+    
     let sourceText = "";
     if (sources.length > 0) {
-      sourceText = "\n\nFontes consultadas:\n" + sources.map((s: { web?: { uri?: string } }) => s.web?.uri).filter(Boolean).slice(0, 3).join("\n");
+      sourceText = "\n\nFontes consultadas:\n" + sources.map((s: any) => s.web?.uri).filter(Boolean).slice(0, 3).join("\n");
     }
 
     return text + sourceText;
@@ -37,7 +37,7 @@ export const getPharmaceuticalAdvice = async (productName: string, status: strin
 
 export const scanProductLabel = async (base64Image: string) => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
+  
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
@@ -48,7 +48,7 @@ export const scanProductLabel = async (base64Image: string) => {
         ]
       }
     });
-
+    
     const text = response.text;
     const jsonMatch = text.match(/\{.*\}/s);
     if (jsonMatch) {
