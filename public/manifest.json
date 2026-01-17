@@ -1,0 +1,18 @@
+
+{
+  "short_name": "PEX",
+  "name": "PEX - Produtos Próximo ao Vencimento",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/883/883360.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#991b1b",
+  "background_color": "#450a0a",
+  "description": "Sistema de gestão de validade de produtos farmacêuticos."
+}

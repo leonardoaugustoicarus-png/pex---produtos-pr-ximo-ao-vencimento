@@ -1,0 +1,7 @@
+{
+  "name": "PEX - Produtos Próximo ao Vencimento",
+  "description": "Um sistema de gestão farmacêutica focado no controle de validade de produtos, com alertas visuais por cores e relatórios PDF.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
